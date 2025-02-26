@@ -2,17 +2,16 @@
 <html>
 <head>
     <style>
-    /* Hide the Dividend Yield block inside the TradingView widget */
-    .tv-category-header__fundamentals-block:has(.js-symbol-dividends) {
-        display: none !important;
-    }
+        /* Hide the Dividend Yield block inside the TradingView widget */
+        .tv-category-header__fundamentals-block:has(.js-symbol-dividends) {
+            display: none !important;
+        }
 
-    /* Alternative method for older browsers */
-    .tv-category-header__fundamentals-block:nth-child(4) {
-        display: none !important;
-    }
-</style>
-
+        /* Alternative method for older browsers */
+        .tv-category-header__fundamentals-block:nth-child(4) {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <div class="tradingview-widget-container">
@@ -30,6 +29,31 @@
             "colorTheme": "dark",
             "isTransparent": true
         }
+        </script>
+        <script>
+            function hideDividendYield() {
+                const observer = new MutationObserver((mutations, obs) => {
+                    let divYieldBlock = document.querySelector('.js-symbol-dividends');
+                    if (divYieldBlock) {
+                        divYieldBlock.closest('.tv-category-header__fundamentals-block').style.display = 'none';
+                        obs.disconnect(); // Stop observing after hiding
+                    }
+                });
+
+                // Start observing changes to the widget content
+                observer.observe(document.body, { childList: true, subtree: true });
+
+                // Fallback in case MutationObserver doesn't work
+                setTimeout(() => {
+                    let divYieldBlock = document.querySelector('.js-symbol-dividends');
+                    if (divYieldBlock) {
+                        divYieldBlock.closest('.tv-category-header__fundamentals-block').style.display = 'none';
+                    }
+                }, 5000); // Try again after 5 seconds
+            }
+
+            // Run when the page fully loads
+            window.addEventListener('load', hideDividendYield);
         </script>
     </div>
 </body>
