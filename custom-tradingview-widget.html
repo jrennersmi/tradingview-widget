@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Hide the Dividend Yield inside the TradingView widget */
+        .tv-fundamental-block:has(.js-symbol-dividends) {
+            display: none !important;
+        }
+        /* Fallback for older browsers */
+        .tv-fundamental-block:nth-child(4) {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+                <span class="blue-text"></span>
+            </a>
+        </div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" defer>
+        {
+            "symbol": "NASDAQ:fcte",
+            "width": 555,
+            "locale": "en",
+            "colorTheme": "dark",
+            "isTransparent": true
+        }
+        </script>
+    </div>
+</body>
+</html>
