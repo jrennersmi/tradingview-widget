@@ -2,12 +2,12 @@
 <html>
 <head>
     <style>
-        /* Hide the Dividend Yield block inside the TradingView widget */
+        /* Attempt to hide Dividend Yield using CSS */
         .tv-category-header__fundamentals-block:has(.js-symbol-dividends) {
             display: none !important;
         }
 
-        /* Alternative method for older browsers */
+        /* Fallback for older browsers */
         .tv-category-header__fundamentals-block:nth-child(4) {
             display: none !important;
         }
@@ -32,28 +32,25 @@
         </script>
         <script>
             function hideDividendYield() {
-                const observer = new MutationObserver((mutations, obs) => {
+                let attempts = 0;
+                const maxAttempts = 20; // Try up to 20 times (approx 10 seconds)
+                const interval = setInterval(() => {
                     let divYieldBlock = document.querySelector('.js-symbol-dividends');
                     if (divYieldBlock) {
                         divYieldBlock.closest('.tv-category-header__fundamentals-block').style.display = 'none';
-                        obs.disconnect(); // Stop observing after hiding
+                        clearInterval(interval); // Stop checking once it's removed
+                        console.log("Dividend Yield hidden!");
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(interval); // Stop after max attempts
+                        console.log("Dividend Yield not found after multiple attempts.");
                     }
-                });
-
-                // Start observing changes to the widget content
-                observer.observe(document.body, { childList: true, subtree: true });
-
-                // Fallback in case MutationObserver doesn't work
-                setTimeout(() => {
-                    let divYieldBlock = document.querySelector('.js-symbol-dividends');
-                    if (divYieldBlock) {
-                        divYieldBlock.closest('.tv-category-header__fundamentals-block').style.display = 'none';
-                    }
-                }, 5000); // Try again after 5 seconds
+                    attempts++;
+                }, 500); // Check every 500ms (0.5 seconds)
             }
 
-            // Run when the page fully loads
-            window.addEventListener('load', hideDividendYield);
+            window.addEventListener('load', () => {
+                setTimeout(hideDividendYield, 3000); // Wait 3 seconds before starting checks
+            });
         </script>
     </div>
 </body>
