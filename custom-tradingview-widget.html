@@ -2,15 +2,17 @@
 <html>
 <head>
     <style>
-        /* Hide the Dividend Yield inside the TradingView widget */
-        .tv-fundamental-block:has(.js-symbol-dividends) {
-            display: none !important;
-        }
-        /* Fallback for older browsers */
-        .tv-fundamental-block:nth-child(4) {
-            display: none !important;
-        }
-    </style>
+    /* Hide the Dividend Yield block inside the TradingView widget */
+    .tv-category-header__fundamentals-block:has(.js-symbol-dividends) {
+        display: none !important;
+    }
+
+    /* Alternative method for older browsers */
+    .tv-category-header__fundamentals-block:nth-child(4) {
+        display: none !important;
+    }
+</style>
+
 </head>
 <body>
     <div class="tradingview-widget-container">
